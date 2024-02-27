@@ -1,9 +1,8 @@
 import userModal from './userModal.js';
 
-import { createApp } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.9/vue.esm-browser.min.js";
-
 const apiUrl = 'https://vue3-course-api.hexschool.io';
 const apiPath = 'colorgolden';
+
 
 // 定義驗證規則
 Object.keys(VeeValidateRules).forEach(rule => {
@@ -28,7 +27,6 @@ const app = Vue.createApp({
             cartData: [],
             total: [],
             status:{
-                //openModalLoading: '',
                 addToCartLoading: '',
                 cartQtyLoading: '',
                 delCartLoading: '',
@@ -39,7 +37,6 @@ const app = Vue.createApp({
         getProducts(){
             axios.get(`${apiUrl}/api/${apiPath}/products/all`)
             .then(res =>{
-                //console.log(res.data.products);
                 this.products = res.data.products;
             })
             .catch((err) => {
@@ -50,7 +47,6 @@ const app = Vue.createApp({
             this.productId = id;
             axios.get(`${apiUrl}/api/${apiPath}/product/${id}`)
             .then(res =>{
-                //console.log(res.data.product);
                 this.productId = '';
                 this.tempProduct = res.data.product;
                 this.$refs.userModal.openModal();
@@ -118,23 +114,14 @@ const app = Vue.createApp({
     },
     components:{
         userModal,
-        VForm: Form,
-        VField: Field,
-        ErrorMessage: ErrorMessage,
+        VForm: VeeValidate.Form,
+        VField: VeeValidate.Field,
+        ErrorMessage: VeeValidate.ErrorMessage,
     },
     mounted(){
         this.getProducts();
         this.getCart();
     },
 })
-
-
-app.component('VForm', VeeValidate.Form);
-app.component('VField', VeeValidate.Field);
-app.component('ErrorMessage', VeeValidate.ErrorMessage);
-
-
-VeeValidate.defineRule('email', VeeValidateRules['email']);
-VeeValidate.defineRule('required', VeeValidateRules['required']);
 
 app.mount("#app");

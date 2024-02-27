@@ -125,27 +125,27 @@
               <label for="email" class="form-label">Email</label>
               <input id="email" name="email" type="email" class="form-control"
                         placeholder="請輸入 Email" :class="{ 'is-invalid': errors['email'] }"></input> 
-              <span name="email" class="invalid-feedback"></span> <!--error-message-->
+              <span name="email" class="invalid-feedback"></span> error-message
             </div>
 
             <div class="mb-3">
               <label for="name" class="form-label">收件人姓名</label>
               <input id="name" name="姓名" type="text" class="form-control" 
-                       placeholder="請輸入姓名" rules="required"></input>  <!--:class="{ 'is-invalid': errors['姓名'] }"-->
+                       placeholder="請輸入姓名" rules="required" :class="{ 'is-invalid': errors['姓名'] }"></input>
               <span name="姓名" class="invalid-feedback"></span>  <!--error-message-->
             </div>
 
             <div class="mb-3">
               <label for="tel" class="form-label">收件人電話</label>
               <input id="tel" name="電話" type="text" class="form-control" 
-                       placeholder="請輸入電話" ></input>  <!--:class="{ 'is-invalid': errors['電話'] }"-->
+                       placeholder="請輸入電話" :class="{ 'is-invalid': errors['電話'] }"></input>
               <span name="電話" class="invalid-feedback"></span> <!--error-message-->
             </div>
 
             <div class="mb-3">
               <label for="address" class="form-label">收件人地址</label>
               <input id="address" name="地址" type="text" class="form-control" 
-                       placeholder="請輸入地址" rules="required" ></input>  <!--:class="{ 'is-invalid': errors['地址'] }"-->
+                       placeholder="請輸入地址" rules="required" :class="{ 'is-invalid': errors['地址'] }"></input>
               <span name="地址" class="invalid-feedback"></span> <!--error-message-->
             </div>
 
@@ -212,13 +212,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
             integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
             crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue@3"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.12.4/vee-validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.12.4/dist/vee-validate-rules.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.12.4/dist/vee-validate-i18n.min.js"></script>
-    <!-- <script src="https://unpkg.com/vee-validate@next"></script>
+    <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
-    <script src="https://unpkg.com/@vee-validate/rules"></script> -->
+    <script src="https://unpkg.com/@vee-validate/rules"></script>
     
     <script src="./index.js" type="module"></script>
   </body>
