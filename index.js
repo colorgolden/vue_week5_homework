@@ -126,6 +126,8 @@ const app = Vue.createApp({
             axios.post(`${apiUrl}/api/${apiPath}/order`, orderData )
             .then((res) => {
                 alert(res.data.message);
+                this.form.user = '';
+                this.form.message = '';   //...清空表單資料
                 this.getCart();
             })
             .catch((err) => {
