@@ -25,11 +25,16 @@ const app = Vue.createApp({
             tempProduct: {},
             productId: '',
             cartData: [],
+            origin_total: 0,
             total: [],
             status:{
                 addToCartLoading: '',
                 cartQtyLoading: '',
                 delCartLoading: '',
+            },
+            form:{
+                user: { email:'',name:'',tel:'', address:'' },
+                message: '',
             }
         }
     },
@@ -110,7 +115,23 @@ const app = Vue.createApp({
             .catch((err) => {
                 alert(err);
             })  
-        }  
+        },
+        createOrder(){
+            const orderData = {
+                data: {
+                    user : this.form.user,
+                    message: this.form.message
+                }
+              };
+            axios.post(`${apiUrl}/api/${apiPath}/order`, orderData )
+            .then((res) => {
+                alert(res.data.message);
+                this.getCart();
+            })
+            .catch((err) => {
+                alert(err);
+            })  
+        },
     },
     components:{
         userModal,

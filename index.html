@@ -87,7 +87,7 @@
                   </td>
                   <td>
                     {{ buyItem.product.title }}
-                    <div class="text-success">
+                    <div class="text-success" v-if="buyItem.product.origin_price !== buyItem.product.price">
                       已套用優惠券
                     </div>
                   </td>
@@ -100,61 +100,63 @@
                       </div>
                     </div>
                   </td>
-                  <td class="text-end">{{ buyItem.product.origin_price }}
-                    <small class="text-success">折扣價：</small>
-                    {{ buyItem.product.origin_price }}
+                  <td class="text-end">{{ buyItem.product.origin_price * buyItem.qty }}
+                    <small class="text-success" v-if="buyItem.product.origin_price !== buyItem.product.price">
+                      折扣價：{{ buyItem.product.price * buyItem.qty }}</small>
                   </td>
                 </tr>
               </template>
             </tbody>
             <tfoot>
-              <tr :total="this.total">
+              <tr :total="this.total" v-for="buyItem in cartData">
                 <td colspan="3" class="text-end">總計</td>
                 <td class="text-end">{{ total }}</td>
               </tr>
-              <tr>
-                <td colspan="3" class="text-end text-success">折扣價</td>
-                <td class="text-end text-success">{{ total }}</td>
-              </tr>
+
             </tfoot>
           </table>
         </div>
         <div class="my-5 row justify-content-center">
-          <v-form ref="form" class="col-md-6" >
+          <v-form ref="myform" class="col-md-6" v-slot="{ errors }">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input id="email" name="email" type="email" class="form-control"
-                        placeholder="請輸入 Email" :class="{ 'is-invalid': errors['email'] }"></input> 
-              <span name="email" class="invalid-feedback"></span> error-message
+              <v-field id="email" name="email" type="email" class="form-control"
+                        placeholder="請輸入 Email" :class="{ 'is-invalid': errors['email'] }" 
+                        rules="email|required" v-model="form.user.email"></v-field> 
+              <error-message name="email" class="invalid-feedback error-message"></error-message> 
             </div>
 
             <div class="mb-3">
               <label for="name" class="form-label">收件人姓名</label>
-              <input id="name" name="姓名" type="text" class="form-control" 
-                       placeholder="請輸入姓名" rules="required" :class="{ 'is-invalid': errors['姓名'] }"></input>
-              <span name="姓名" class="invalid-feedback"></span>  <!--error-message-->
+              <v-field id="name" name="姓名" type="text" class="form-control" 
+                       placeholder="請輸入姓名" rules="required" :class="{ 'is-invalid': errors['姓名'] }"
+                       rules="姓名|required" v-model="form.user.name"></v-field>
+              <error-message name="姓名" class="invalid-feedback"></error-message>
             </div>
 
             <div class="mb-3">
               <label for="tel" class="form-label">收件人電話</label>
-              <input id="tel" name="電話" type="text" class="form-control" 
-                       placeholder="請輸入電話" :class="{ 'is-invalid': errors['電話'] }"></input>
-              <span name="電話" class="invalid-feedback"></span> <!--error-message-->
+              <v-field id="tel" name="電話" type="text" class="form-control" 
+                       placeholder="請輸入電話" :class="{ 'is-invalid': errors['電話'] }"
+                       rules="numeric|min:9" v-model="form.user.tel"></v-field>  
+                       <!-- 只能輸入數字＆最少輸入9個字元 -->
+              <error-message name="電話" class="invalid-feedback"></error-message>
             </div>
 
             <div class="mb-3">
               <label for="address" class="form-label">收件人地址</label>
-              <input id="address" name="地址" type="text" class="form-control" 
-                       placeholder="請輸入地址" rules="required" :class="{ 'is-invalid': errors['地址'] }"></input>
-              <span name="地址" class="invalid-feedback"></span> <!--error-message-->
+              <v-field id="address" name="地址" type="text" class="form-control" 
+                       placeholder="請輸入地址" rules="required" :class="{ 'is-invalid': errors['地址'] }"
+                       rules="地址|required" v-model="form.user.address"></v-field>
+              <error-message name="地址" class="invalid-feedback"></error-message> 
             </div>
 
             <div class="mb-3">
               <label for="message" class="form-label">留言</label>
-              <textarea id="message" class="form-control" cols="30" rows="10" ></textarea>
+              <textarea id="message" class="form-control" cols="30" rows="10" v-model="form.message"></textarea>
             </div>
             <div class="text-end">
-              <button type="submit" class="btn btn-danger"
+              <button @click="createOrder" type="button" class="btn btn-danger"
                       >送出訂單</button>
             </div>
           </v-form>
@@ -187,7 +189,6 @@
             <div class="h5">現在只要 {{ tempProduct.price }} 元</div>
             <div>
               <div class="input-group">
-                <!-- <input type="number" class="form-control" min="1" v-model="qty"> //舊的寫法，老師推薦以下select寫法-->
                 <select name="" id="" class="form-select" v-model="qty">
                   <option :value="i" v-for="i in 20" :key="i">{{ i }}</option>
                 </select>
